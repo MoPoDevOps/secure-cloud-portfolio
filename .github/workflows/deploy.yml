@@ -26,14 +26,15 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::519008639700:role/S3-Deploy-Role # HERE IS THE ARN CODE I TOOK FROM AWS
-          aws-region: eu-south-1 # Remember to change this if the S3 bucket changed to a different region!
+          role-to-assume: arn:aws:iam::519008639700:role/GitHubActions-S3-Deploy-Role # HERE IS THE ARN CODE I TOOK FROM AWS
+          aws-region: us-east-1 # Remember to change this if the S3 bucket changed to a different region!
 
       # Step C: The actual deployment command.
       # Why: 'aws s3 sync' looks at the files, sees what changed, and copies only the new stuff to your bucket.
       # We use '--exclude' so it doesn't upload the hidden git history files.
       - name: Sync files to S3
-        run: aws s3 sync . s3://secure-portfolio-milano-2026-519008639700-eu-south-1-an --delete --exclude ".git/*" --exclude ".github/*"
-        # THIS IS THE NEW STEP FOR THE CLOUDFRONT TO UPDATE AUTOMATICALLY!
+        run: aws s3 sync . s3://secure-portfolio-milano-2026-519008639700-eu-south-1-an --delete --exclude ".git/*" --exclude ".github/*" --region eu-south-1
+        
+      # THIS IS THE NEW STEP FOR THE CLOUDFRONT TO UPDATE AUTOMATICALLY!
       - name: Invalidate CloudFront Cache
         run: aws cloudfront create-invalidation --distribution-id EUJEGZIHBD4RF --paths "/*"
