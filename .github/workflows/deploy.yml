@@ -26,7 +26,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::519008639700:role/GitHubActions-S3-Deploy-Role # HERE IS THE ARN CODE I TOOK FROM AWS
+          role-to-assume: arn:aws:iam::519008639700:role/S3-Deploy-Role # HERE IS THE ARN CODE I TOOK FROM AWS
           aws-region: eu-south-1 # Remember to change this if the S3 bucket changed to a different region!
 
       # Step C: The actual deployment command.
